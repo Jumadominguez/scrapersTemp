@@ -1,0 +1,3 @@
+# Requirements for scrapersTemp project
+requests
+beautifulsoup4
