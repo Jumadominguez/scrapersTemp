@@ -1,0 +1,7 @@
+requests>=2.25.0
+beautifulsoup4>=4.9.0
+lxml>=4.6.0
+
+# Opcional: Para scraping con Selenium (contenido dinámico)
+# selenium>=4.0.0
+# webdriver-manager>=3.5.0
