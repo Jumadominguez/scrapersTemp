@@ -13,13 +13,14 @@ Este documento especifica los requerimientos técnicos para desarrollar un scrip
 - **Etapa 3.2**: Extracción de categorías del menú desplegado ✅ **NUEVO**
 - **Etapa 3.3**: Filtrado y validación de categorías ✅ **NUEVO**
 - **Etapa 4**: Extracción de filtros por categoría ✅ **NUEVO**
+- **Etapa 5.1**: Generación del archivo Markdown ✅ **NUEVO**
 
 ### 🔄 **En Progreso:**
 - **Etapa 2.3**: Manejo de errores básico
 - **Etapa 2.4**: Tests de conectividad
 
 ### 📋 **Pendiente:**
-- **Etapa 5**: Generación Markdown
+- **Etapa 5**: Generación Markdown (parcial - Etapa 5.1 completada)
 - **Etapa 6**: Testing y Validación
 - **Etapa 7**: Optimización y Producción
 
@@ -34,7 +35,7 @@ graph TD
     D --> E[Etapa 3.2: Extracción de Categorías ✅]
     E --> F[Etapa 3.3: Filtrado y Validación ✅]
     F --> G[Etapa 4: Extracción de Filtros ✅]
-    G --> H[Etapa 5: Generación Markdown]
+    G --> H[Etapa 5.1: Generación Markdown ✅]
     H --> I[Etapa 6: Testing y Validación]
     I --> J[Etapa 7: Optimización y Producción]
 ```
