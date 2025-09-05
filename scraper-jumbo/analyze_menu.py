@@ -560,10 +560,15 @@ def analyze_main_menu():
     print('🖱️  HOVER REALIZADO Y CATEGORÍAS EXTRAÍDAS')
     print(f'� TOTAL DE CATEGORÍAS: {len(categories) if "categories" in locals() else 0}')
 
-def generate_markdown_report(input_file='categories_with_filters.json', output_file='categorias_jumbo.md'):
+def generate_markdown_report(input_file='categories_with_filters.json', output_file=None):
     """Generar archivo Markdown con categorías y filtros - Etapa 5"""
     print('🚀 GENERANDO REPORTE MARKDOWN - ETAPA 5')
     print('=' * 50)
+
+    # Generar nombre de archivo con fecha y hora si no se especifica
+    if output_file is None:
+        timestamp = time.strftime("%Y-%m-%d_%H-%M-%S")
+        output_file = f'logs/categorias_jumbo_{timestamp}.md'
 
     # Cargar categorías con filtros
     try:
@@ -576,6 +581,10 @@ def generate_markdown_report(input_file='categories_with_filters.json', output_f
     except json.JSONDecodeError as e:
         print(f'❌ Error al leer JSON: {e}')
         return
+
+    # Crear directorio logs si no existe
+    import os
+    os.makedirs('logs', exist_ok=True)
 
     # Generar archivo Markdown
     with open(output_file, 'w', encoding='utf-8') as f:
