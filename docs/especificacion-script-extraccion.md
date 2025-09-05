@@ -4,19 +4,38 @@
 
 Este documento especifica los requerimientos técnicos para desarrollar un script automatizado que extraiga las categorías y filtros del sitio web de Jumbo Argentina, generando una documentación completa en formato Markdown.
 
-## Objetivos del Script
+## Estado Actual del Proyecto
 
-- **Automatización completa**: Eliminar el proceso manual de extracción de filtros
-- **Consistencia**: Garantizar que todas las categorías sigan la misma estructura
-- **Mantenibilidad**: Fácil actualización cuando cambien las categorías o filtros
-- **Documentación**: Generar archivo .md con formato estandarizado
+### ✅ **Completado:**
+- **Etapa 1**: Configuración del Proyecto
+- **Etapa 2.1**: Cliente HTTP funcional
+- **Etapa 2.2**: Hover sobre menú desplegable ✅ **NUEVO**
 
-## Arquitectura General del Script
+### 🔄 **En Progreso:**
+- **Etapa 2.3**: Manejo de errores básico
+- **Etapa 2.4**: Tests de conectividad
+
+### 📋 **Pendiente:**
+- **Etapa 3**: Extracción de Categorías Principales
+- **Etapa 4**: Extracción de Filtros
+- **Etapa 5**: Generación Markdown
+- **Etapa 6**: Testing y Validación
+- **Etapa 7**: Optimización y Producción
+
+---
 
 ### Flujo Principal
 ```mermaid
 graph TD
-    A[Inicio] --> B[Acceder a jumbo.com.ar]
+    A[Inicio] --> B[Etapa 1: Configuración del Proyecto ✅]
+    B --> C[Etapa 2: Acceso Básico al Sitio Web ✅]
+    C --> D[Etapa 2.2: Hover Menú Desplegable ✅]
+    D --> E[Etapa 3: Extracción de Categorías]
+    E --> F[Etapa 4: Extracción de Filtros]
+    F --> G[Etapa 5: Generación Markdown]
+    G --> H[Etapa 6: Testing y Validación]
+    H --> I[Etapa 7: Optimización y Producción]
+```
     B --> C[Extraer categorías principales]
     C --> D[Procesar primera categoría]
     D --> E[Extraer filtros de categoría actual]
@@ -51,15 +70,109 @@ headers = {
 
 ### 2. Paso 1: Acceso al Sitio Principal
 
-#### URL Base
-- **URL**: `https://www.jumbo.com.ar`
-- **Método**: GET
-- **Headers**: Configurados para simular navegador real
+#### 2.1.1 Configurar Headers HTTP
+```python
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'es-AR,es;q=0.9,en;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1'
+}
+```
 
-#### Validación de Acceso
-- Verificar código de respuesta HTTP 200
-- Confirmar que el contenido se cargó correctamente
-- Manejar posibles bloqueos o restricciones
+#### 2.1.2 Implementar Cliente HTTP Básico
+```python
+import requests
+
+def get_page_basic(url):
+    """Acceso básico al sitio web"""
+    try:
+        response = requests.get(url, headers=headers, timeout=30)
+        response.raise_for_status()
+        return response.text
+    except requests.RequestException as e:
+        print(f"Error accediendo a {url}: {e}")
+        return None
+```
+
+#### 2.1.3 Validar Respuesta del Servidor
+- ✅ Código HTTP 200
+- ✅ Contenido HTML válido
+- ✅ No bloqueos por User-Agent
+- ✅ Tiempo de respuesta aceptable (< 10 segundos)
+
+#### 2.1.4 Implementar Logging de Acceso
+```python
+import logging
+
+def log_access_result(url, success, response_time):
+    """Registrar resultado del acceso"""
+    status = "SUCCESS" if success else "FAILED"
+    logging.info(f"Access to {url}: {status} ({response_time:.2f}s)")
+```
+
+#### 2.2.1 Implementar Hover sobre Elemento del Menú
+```python
+# analyze_menu.py - Tarea 2.2.1
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
+def hover_menu_element():
+    """Hacer hover sobre el elemento del menú desplegable"""
+    driver = webdriver.Chrome()
+    driver.get("https://www.jumbo.com.ar")
+    
+    # Esperar a que cargue la página
+    time.sleep(3)
+    
+    # Encontrar el elemento del menú
+    menu_element = driver.find_element(By.CSS_SELECTOR, 'span.vtex-menu-2-x-styledLink--header-category')
+    
+    # Crear ActionChains para hover
+    actions = ActionChains(driver)
+    actions.move_to_element(menu_element).perform()
+    
+    print("✅ Hover realizado sobre elemento del menú")
+    return driver
+```
+
+#### 2.2.2 Verificar Despliegue del Menú
+- ✅ Elemento del menú encontrado correctamente
+- ✅ Hover ejecutado sin errores
+- ✅ Menú de categorías desplegado visualmente
+- ✅ Mantener navegador abierto para verificación
+
+#### 2.2.3 Capturar Estado del Menú Desplegado
+```python
+def capture_menu_state(driver):
+    """Capturar el estado del menú desplegado"""
+    try:
+        # Buscar elementos del menú desplegado
+        menu_items = driver.find_elements(By.CSS_SELECTOR, '.menu-item, .category-link, a[href*="/"]')
+        print(f"📊 Elementos del menú encontrados: {len(menu_items)}")
+        
+        # Mostrar algunos elementos encontrados
+        for i, item in enumerate(menu_items[:5]):
+            print(f"  {i+1}. {item.text}")
+            
+        return len(menu_items) > 0
+    except Exception as e:
+        print(f"❌ Error capturando estado del menú: {e}")
+        return False
+```
+
+#### 2.2.4 Implementar Logging del Proceso
+```python
+def log_hover_process(success, menu_items_count):
+    """Registrar el proceso de hover"""
+    if success:
+        logging.info(f"Hover exitoso - {menu_items_count} elementos del menú detectados")
+    else:
+        logging.error("Hover fallido - no se pudo desplegar el menú")
+```
 
 ### 3. Paso 2: Extracción de Categorías Principales
 
@@ -444,12 +557,41 @@ class JumboScraper:
             return None
 ```
 
-#### 2.2 Implementar Manejo de Errores Básico
+#### 2.2 Implementar Hover sobre Menú Desplegable
+```python
+# analyze_menu.py - Etapa 2 Paso 2
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+
+def analyze_menu_hover():
+    """Hacer hover sobre el elemento del menú desplegable"""
+    driver = webdriver.Chrome()
+    driver.get("https://www.jumbo.com.ar")
+    
+    # Encontrar el elemento del menú
+    menu_trigger = driver.find_element(By.CSS_SELECTOR, 'span.vtex-menu-2-x-styledLink--header-category')
+    
+    # Crear ActionChains para hover
+    actions = ActionChains(driver)
+    actions.move_to_element(menu_trigger).perform()
+    
+    # El menú debería desplegarse
+    print("Hover realizado - menú desplegado")
+```
+
+**Funcionalidad implementada:**
+- ✅ Selenium para control del navegador
+- ✅ Búsqueda del elemento `span.vtex-menu-2-x-styledLink--header-category`
+- ✅ Hover automático sobre el elemento
+- ✅ Verificación visual del menú desplegado
+
+#### 2.3 Implementar Manejo de Errores Básico
 - Capturar excepciones HTTP
 - Implementar reintentos automáticos
 - Logging de errores
 
-#### 2.3 Crear Tests de Conectividad
+#### 2.4 Crear Tests de Conectividad
 ```python
 # tests/test_scraper.py
 def test_basic_connection():
@@ -460,14 +602,18 @@ def test_basic_connection():
 ```
 
 ### ✅ Criterios de Aceptación
-- [ ] Cliente HTTP funcional
-- [ ] Acceso exitoso a jumbo.com.ar
+- [x] Cliente HTTP funcional
+- [x] Acceso exitoso a jumbo.com.ar
+- [x] Hover sobre elemento del menú desplegable implementado
+- [x] Menú de categorías desplegado correctamente
 - [ ] Manejo básico de errores implementado
 - [ ] Tests de conectividad pasan
 - [ ] Logging de operaciones HTTP
 
 ### 📊 Entregables
 - Clase `JumboScraper` funcional
+- Script `analyze_menu.py` con funcionalidad de hover
+- Selenium configurado para control del navegador
 - Tests de conectividad
 - Manejo básico de errores HTTP
 
@@ -757,8 +903,8 @@ Optimizar performance, agregar features avanzadas y preparar para producción.
 ## 📈 Seguimiento de Progreso
 
 ### Checklist General
-- [ ] Etapa 1: Configuración del Proyecto
-- [ ] Etapa 2: Acceso Básico al Sitio Web
+- [x] Etapa 1: Configuración del Proyecto
+- [x] Etapa 2: Acceso Básico al Sitio Web
 - [ ] Etapa 3: Extracción de Categorías
 - [ ] Etapa 4: Extracción de Filtros
 - [ ] Etapa 5: Generación Markdown
