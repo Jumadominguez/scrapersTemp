@@ -309,7 +309,475 @@ Esta especificación proporciona una guía completa para desarrollar un script r
 
 ---
 
+# 🗺️ Guía de Etapas de Desarrollo
+
+Esta guía divide el desarrollo del script en **7 etapas secuenciales**, cada una con objetivos específicos, tareas detalladas y criterios de aceptación claros.
+
+## 📋 Metodología de Desarrollo
+
+### Principios Generales
+- **Desarrollo incremental**: Cada etapa produce un resultado funcional
+- **Testing continuo**: Validar cada componente antes de continuar
+- **Documentación**: Actualizar documentación en cada etapa
+- **Control de versiones**: Commits frecuentes con mensajes descriptivos
+
+### Herramientas de Validación
+- **Tests unitarios**: Para funciones individuales
+- **Tests de integración**: Para flujos completos
+- **Validación manual**: Verificación visual de resultados
+- **Logging**: Registro detallado de operaciones
+
+---
+
+## 🚀 Etapa 1: Configuración del Proyecto y Dependencias
+
+### 🎯 Objetivo
+Establecer la estructura básica del proyecto y configurar todas las dependencias necesarias.
+
+### 📝 Tareas Específicas
+
+#### 1.1 Crear Estructura de Directorios
+```bash
+scraper-jumbo/
+├── src/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config.py
+│   ├── scraper.py
+│   ├── extractor.py
+│   └── generator.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_scraper.py
+│   ├── test_extractor.py
+│   └── test_generator.py
+├── docs/
+├── config/
+│   └── config.yaml
+└── logs/
+```
+
+#### 1.2 Instalar Dependencias
+```bash
+pip install requests beautifulsoup4 selenium pyyaml markdown
+```
+
+#### 1.3 Configurar Archivo de Configuración
+```yaml
+# config/config.yaml
+site_url: "https://www.jumbo.com.ar"
+output_file: "categorias_jumbo.md"
+max_retries: 3
+delay_between_requests: 1
+timeout: 30
+user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+log_level: "INFO"
+```
+
+#### 1.4 Implementar Sistema de Logging
+```python
+# src/config.py
+import logging
+import yaml
+
+def setup_logging(log_level='INFO'):
+    logging.basicConfig(
+        level=getattr(logging, log_level),
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('logs/scraper.log'),
+            logging.StreamHandler()
+        ]
+    )
+```
+
+### ✅ Criterios de Aceptación
+- [ ] Estructura de directorios creada
+- [ ] Todas las dependencias instaladas
+- [ ] Archivo de configuración funcional
+- [ ] Sistema de logging operativo
+- [ ] Script básico ejecutable sin errores
+- [ ] Tests básicos pasan
+
+### 📊 Entregables
+- Estructura completa del proyecto
+- Archivo `requirements.txt`
+- Archivo `config.yaml` funcional
+- Sistema de logging configurado
+
+---
+
+## 🌐 Etapa 2: Acceso Básico al Sitio Web
+
+### 🎯 Objetivo
+Implementar la capacidad de acceder al sitio web de Jumbo y manejar respuestas básicas.
+
+### 📝 Tareas Específicas
+
+#### 2.1 Implementar Cliente HTTP
+```python
+# src/scraper.py
+import requests
+from .config import load_config
+
+class JumboScraper:
+    def __init__(self):
+        self.config = load_config()
+        self.session = requests.Session()
+        self.session.headers.update(self._get_headers())
+
+    def _get_headers(self):
+        return {
+            'User-Agent': self.config['user_agent'],
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'es-AR,es;q=0.9,en;q=0.8',
+        }
+
+    def get_page(self, url):
+        """Obtener página con manejo de errores"""
+        try:
+            response = self.session.get(url, timeout=self.config['timeout'])
+            response.raise_for_status()
+            return response.text
+        except requests.RequestException as e:
+            logger.error(f"Error accediendo a {url}: {e}")
+            return None
+```
+
+#### 2.2 Implementar Manejo de Errores Básico
+- Capturar excepciones HTTP
+- Implementar reintentos automáticos
+- Logging de errores
+
+#### 2.3 Crear Tests de Conectividad
+```python
+# tests/test_scraper.py
+def test_basic_connection():
+    scraper = JumboScraper()
+    content = scraper.get_page("https://www.jumbo.com.ar")
+    assert content is not None
+    assert "Jumbo" in content
+```
+
+### ✅ Criterios de Aceptación
+- [ ] Cliente HTTP funcional
+- [ ] Acceso exitoso a jumbo.com.ar
+- [ ] Manejo básico de errores implementado
+- [ ] Tests de conectividad pasan
+- [ ] Logging de operaciones HTTP
+
+### 📊 Entregables
+- Clase `JumboScraper` funcional
+- Tests de conectividad
+- Manejo básico de errores HTTP
+
+---
+
+## 📂 Etapa 3: Extracción de Categorías Principales
+
+### 🎯 Objetivo
+Extraer la lista completa de categorías principales con sus URLs correspondientes.
+
+### 📝 Tareas Específicas
+
+#### 3.1 Analizar Estructura HTML
+- Inspeccionar navegación principal
+- Identificar patrones de URLs de categorías
+- Localizar elementos de menú
+
+#### 3.2 Implementar Extracción de Categorías
+```python
+# src/extractor.py
+from bs4 import BeautifulSoup
+
+def extract_categories(html_content):
+    """Extraer categorías de la página principal"""
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    categories = []
+    # Buscar elementos de navegación
+    nav_elements = soup.find_all(['a', 'li'], class_=re.compile(r'nav|menu|category'))
+
+    for element in nav_elements:
+        href = element.get('href')
+        if href and '/categoria' in href:
+            name = element.get_text().strip()
+            if name and len(name) > 2:
+                categories.append({
+                    'name': name,
+                    'url': f"https://www.jumbo.com.ar{href}",
+                    'filters': []
+                })
+
+    return categories
+```
+
+#### 3.3 Filtrar y Validar Categorías
+- Eliminar categorías no relevantes (Ofertas, Novedades, etc.)
+- Validar URLs accesibles
+- Limpiar nombres de categorías
+
+#### 3.4 Implementar Caching
+- Almacenar categorías extraídas
+- Evitar re-extracción innecesaria
+
+### ✅ Criterios de Aceptación
+- [ ] Extracción exitosa de todas las categorías principales
+- [ ] URLs válidas y accesibles
+- [ ] Filtrado correcto de categorías irrelevantes
+- [ ] Almacenamiento en estructura de datos apropiada
+- [ ] Tests de extracción de categorías
+
+### 📊 Entregables
+- Función `extract_categories()` funcional
+- Lista validada de categorías
+- Tests de extracción
+
+---
+
+## 🔍 Etapa 4: Extracción de Filtros por Categoría
+
+### 🎯 Objetivo
+Implementar la lógica para extraer filtros de cada categoría individual.
+
+### 📝 Tareas Específicas
+
+#### 4.1 Analizar Estructura de Filtros
+- Inspeccionar HTML de páginas de categoría
+- Identificar selectores CSS para filtros
+- Entender estructura de datos de filtros
+
+#### 4.2 Implementar Extracción de Filtros
+```python
+# src/extractor.py
+def extract_filters(html_content):
+    """Extraer filtros de una página de categoría"""
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    filters = []
+    base_filters = ['Categoría', 'Sub-Categoría', 'Tipo de Producto']
+
+    # Buscar elementos de filtro
+    filter_elements = soup.find_all(['div', 'li', 'span'], class_=re.compile(r'filter|facet'))
+
+    for element in filter_elements:
+        filter_text = element.get_text().strip()
+        if (filter_text and
+            len(filter_text) > 2 and
+            filter_text not in base_filters and
+            'precio' not in filter_text.lower()):
+            filters.append(filter_text)
+
+    # Limpiar y deduplicar
+    unique_filters = list(set(filters))
+    unique_filters.sort()
+
+    return base_filters + unique_filters
+```
+
+#### 4.3 Implementar Procesamiento por Lotes
+- Procesar categorías en lotes pequeños
+- Implementar delays entre requests
+- Manejar rate limiting
+
+#### 4.4 Agregar Validación de Filtros
+- Verificar integridad de datos
+- Detectar cambios en estructura
+- Logging detallado de extracción
+
+### ✅ Criterios de Aceptación
+- [ ] Extracción exitosa de filtros de al menos 3 categorías
+- [ ] Estructura de datos consistente
+- [ ] Filtrado correcto de "Rangos de precio"
+- [ ] Manejo de errores en extracción
+- [ ] Tests de extracción de filtros
+
+### 📊 Entregables
+- Función `extract_filters()` funcional
+- Procesamiento por lotes implementado
+- Tests de extracción de filtros
+
+---
+
+## 📝 Etapa 5: Generación del Archivo Markdown
+
+### 🎯 Objetivo
+Crear el generador que produce el archivo .md final con toda la información extraída.
+
+### 📝 Tareas Específicas
+
+#### 5.1 Implementar Generador Markdown
+```python
+# src/generator.py
+def generate_markdown(categories, output_file):
+    """Generar archivo Markdown con categorías y filtros"""
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        # Encabezado
+        f.write("# Categorias\n")
+        for i, category in enumerate(categories, 1):
+            f.write(f"{i}. {category['name']}: {category['url']}\n")
+        f.write("\n")
+
+        # Sección de filtros
+        f.write("## Filtros por Categoría\n\n")
+
+        for category in categories:
+            f.write(f"### {category['name']}\n")
+            total_filters = len(category['filters'])
+            f.write(f"**Total de filtros: {total_filters}**\n")
+
+            # Filtros base
+            f.write("-- FiltrosCategory\n")
+            f.write("Categoría\n")
+            f.write("Sub-Categoría\n")
+            f.write("-- Tipo de producto\n")
+            f.write("Tipo de Producto\n")
+            f.write("-- Subfiltros\n")
+
+            # Filtros específicos
+            for filter_name in category['filters'][3:]:  # Saltar filtros base
+                f.write(f"{filter_name}\n")
+
+            f.write("\n")
+```
+
+#### 5.2 Implementar Formateo Avanzado
+- Alineación consistente
+- Encoding UTF-8
+- Manejo de caracteres especiales
+
+#### 5.3 Agregar Metadatos
+- Timestamp de generación
+- Versión del script
+- Estadísticas de extracción
+
+### ✅ Criterios de Aceptación
+- [ ] Archivo Markdown generado correctamente
+- [ ] Formato idéntico al manual existente
+- [ ] Encoding UTF-8 correcto
+- [ ] Conteos de filtros precisos
+- [ ] Tests de generación
+
+### 📊 Entregables
+- Función `generate_markdown()` funcional
+- Archivo .md de ejemplo generado
+- Tests de generación
+
+---
+
+## 🧪 Etapa 6: Testing y Validación
+
+### 🎯 Objetivo
+Implementar suite completa de tests y validar el funcionamiento del script.
+
+### 📝 Tareas Específicas
+
+#### 6.1 Tests Unitarios
+```python
+# tests/test_extractor.py
+def test_extract_categories():
+    # Test con HTML mock
+    pass
+
+def test_extract_filters():
+    # Test con HTML de categoría mock
+    pass
+```
+
+#### 6.2 Tests de Integración
+- Test completo del flujo
+- Validación de datos end-to-end
+- Tests de performance
+
+#### 6.3 Validación Manual
+- Comparar resultados con extracción manual
+- Verificar precisión de filtros
+- Validar formato del Markdown
+
+#### 6.4 Implementar CI/CD Básico
+- Tests automáticos en commit
+- Linting de código
+- Validación de formato
+
+### ✅ Criterios de Aceptación
+- [ ] Cobertura de tests > 80%
+- [ ] Todos los tests pasan
+- [ ] Validación manual exitosa
+- [ ] Resultados idénticos a extracción manual
+- [ ] CI/CD básico implementado
+
+### 📊 Entregables
+- Suite completa de tests
+- Reportes de cobertura
+- Validación manual documentada
+
+---
+
+## ⚡ Etapa 7: Optimización y Mejoras
+
+### 🎯 Objetivo
+Optimizar performance, agregar features avanzadas y preparar para producción.
+
+### 📝 Tareas Específicas
+
+#### 7.1 Optimizaciones de Performance
+- Implementar multithreading para categorías
+- Optimizar parsing HTML
+- Implementar caching inteligente
+
+#### 7.2 Features Avanzadas
+- Detección automática de cambios
+- Modo incremental de actualización
+- Dashboard de monitoreo
+
+#### 7.3 Documentación Final
+- README completo del proyecto
+- Guía de uso detallada
+- Documentación de API
+
+#### 7.4 Preparación para Producción
+- Configuración de logging avanzado
+- Manejo de credenciales seguras
+- Empaquetado del proyecto
+
+### ✅ Criterios de Aceptación
+- [ ] Performance mejorada significativamente
+- [ ] Features avanzadas implementadas
+- [ ] Documentación completa
+- [ ] Listo para despliegue en producción
+
+### 📊 Entregables
+- Script optimizado y completo
+- Documentación final
+- Configuración de producción
+
+---
+
+## 📈 Seguimiento de Progreso
+
+### Checklist General
+- [ ] Etapa 1: Configuración del Proyecto
+- [ ] Etapa 2: Acceso Básico al Sitio Web
+- [ ] Etapa 3: Extracción de Categorías
+- [ ] Etapa 4: Extracción de Filtros
+- [ ] Etapa 5: Generación Markdown
+- [ ] Etapa 6: Testing y Validación
+- [ ] Etapa 7: Optimización y Producción
+
+### Métricas por Etapa
+- **Tiempo estimado**: 2-3 días por etapa
+- **Tests requeridos**: Mínimo 5 tests por etapa
+- **Documentación**: README actualizado por etapa
+
+### Riesgos y Mitigaciones
+- **Rate limiting**: Implementar delays y proxies
+- **Cambios en sitio**: Tests de regresión automáticos
+- **Dependencias**: Versionado estricto de librerías
+
+---
+
 **Fecha**: Septiembre 2025
-**Versión**: 1.0
+**Versión**: 1.1
 **Autor**: GitHub Copilot
-**Estado**: Especificación Completa
+**Estado**: Guía de Desarrollo Completa
