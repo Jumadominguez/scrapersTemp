@@ -10,13 +10,14 @@ Este documento especifica los requerimientos técnicos para desarrollar un scrip
 - **Etapa 1**: Configuración del Proyecto
 - **Etapa 2.1**: Cliente HTTP funcional
 - **Etapa 2.2**: Hover sobre menú desplegable ✅ **NUEVO**
+- **Etapa 3.2**: Extracción de categorías del menú desplegado ✅ **NUEVO**
 
 ### 🔄 **En Progreso:**
 - **Etapa 2.3**: Manejo de errores básico
 - **Etapa 2.4**: Tests de conectividad
 
 ### 📋 **Pendiente:**
-- **Etapa 3**: Extracción de Categorías Principales
+- **Etapa 3**: Extracción de Categorías Principales (parcial)
 - **Etapa 4**: Extracción de Filtros
 - **Etapa 5**: Generación Markdown
 - **Etapa 6**: Testing y Validación
@@ -30,7 +31,7 @@ graph TD
     A[Inicio] --> B[Etapa 1: Configuración del Proyecto ✅]
     B --> C[Etapa 2: Acceso Básico al Sitio Web ✅]
     C --> D[Etapa 2.2: Hover Menú Desplegable ✅]
-    D --> E[Etapa 3: Extracción de Categorías]
+    D --> E[Etapa 3.2: Extracción de Categorías ✅]
     E --> F[Etapa 4: Extracción de Filtros]
     F --> G[Etapa 5: Generación Markdown]
     G --> H[Etapa 6: Testing y Validación]
@@ -633,29 +634,209 @@ Extraer la lista completa de categorías principales con sus URLs correspondient
 
 #### 3.2 Implementar Extracción de Categorías
 ```python
-# src/extractor.py
-from bs4 import BeautifulSoup
+# analyze_menu.py - Implementación con Selenium
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+import time
+import json
+import re
 
-def extract_categories(html_content):
-    """Extraer categorías de la página principal"""
-    soup = BeautifulSoup(html_content, 'html.parser')
-
+def extract_categories_from_menu(driver):
+    """Extraer todas las categorías del menú desplegado"""
     categories = []
-    # Buscar elementos de navegación
-    nav_elements = soup.find_all(['a', 'li'], class_=re.compile(r'nav|menu|category'))
+    
+    try:
+        # Esperar a que el menú se despliegue completamente
+        time.sleep(3)
+        
+        # Buscar específicamente dentro del menú desplegado VTEX
+        # Primero intentar encontrar el contenedor del menú desplegado
+        menu_container_selectors = [
+            '.vtex-menu-2-x-menuContainer',  # Contenedor principal del menú
+            '.vtex-menu-2-x-submenu',       # Submenú desplegado
+            '[class*="menuContainer"]',     # Contenedor genérico
+            '.vtex-menu-2-x-menuItem',      # Items del menú
+        ]
+        
+        menu_container = None
+        for selector in menu_container_selectors:
+            try:
+                containers = driver.find_elements(By.CSS_SELECTOR, selector)
+                for container in containers:
+                    # Verificar si el contenedor es visible y tiene contenido
+                    if container.is_displayed() and container.size['height'] > 50:
+                        menu_container = container
+                        print(f'✅ Contenedor del menú encontrado: {selector}')
+                        break
+                if menu_container:
+                    break
+            except:
+                continue
+        
+        if not menu_container:
+            print('⚠️  No se encontró contenedor específico del menú, usando página completa')
+        
+        # Selectores más específicos para categorías del menú desplegado
+        category_selectors = [
+            '.vtex-menu-2-x-menuItem a[href*="/"]',           # Enlaces en items del menú VTEX
+            '.vtex-menu-2-x-submenuItem a[href*="/"]',       # Items del submenú
+            '.vtex-menu-2-x-styledLink[href*="/"]',          # Enlaces estilizados del menú
+        ]
+        
+        found_links = set()  # Evitar duplicados
+        
+        for selector in category_selectors:
+            try:
+                if menu_container:
+                    # Buscar dentro del contenedor del menú
+                    elements = menu_container.find_elements(By.CSS_SELECTOR, selector.replace('.vtex-menu-2-x-menuItem ', ''))
+                else:
+                    # Buscar en toda la página
+                    elements = driver.find_elements(By.CSS_SELECTOR, selector)
+                
+                print(f'🔍 Selector {selector}: {len(elements)} elementos encontrados')
+                
+                for element in elements:
+                    try:
+                        href = element.get_attribute('href')
+                        text = element.text.strip()
+                        
+                        if href and text and len(text) > 1 and len(text) < 50:
+                            # Filtrar URLs válidas de categorías principales
+                            if (href.startswith('https://www.jumbo.com.ar/') and
+                                not href.endswith('/p') and  # No productos individuales
+                                not 'javascript:' in href and
+                                not '#' in href and
+                                not '/p/' in href and       # No páginas de producto
+                                not 'descuentos' in href.lower() and  # No descuentos
+                                not 'sucursales' in href.lower() and  # No sucursales
+                                not 'arrepentimiento' in href.lower() and  # No botón arrepentimiento
+                                not 'legales' in text.lower() and     # No legales
+                                not 'bancarios' in text.lower()):     # No bancarios
+                                
+                                # Limpiar el texto (remover caracteres extraños)
+                                clean_text = re.sub(r'[^\w\sáéíóúñÁÉÍÓÚÑ]', '', text).strip()
+                                
+                                if clean_text and len(clean_text) > 2:
+                                    # Verificar que no sea un enlace genérico
+                                    generic_terms = [
+                                        'ver más', 'ver todo', 'todos', 'ofertas', 'novedades',
+                                        'comprar', 'compra', 'inicio', 'home', 'contacto',
+                                        'ayuda', 'servicio', 'atención', 'sucursales',
+                                        'legales', 'bancarios', 'arrepentimiento'
+                                    ]
+                                    
+                                    is_generic = False
+                                    for term in generic_terms:
+                                        if term in clean_text.lower():
+                                            is_generic = True
+                                            break
+                                    
+                                    if not is_generic:
+                                        category_entry = {
+                                            'name': clean_text,
+                                            'url': href,
+                                            'text_original': text
+                                        }
+                                        
+                                        # Usar URL como clave para evitar duplicados
+                                        if href not in found_links:
+                                            found_links.add(href)
+                                            categories.append(category_entry)
+                                            print(f'✅ Categoría encontrada: {clean_text}')
+                                            
+                    except Exception as e:
+                        print(f'⚠️  Error procesando elemento: {e}')
+                        continue
+                    
+            except Exception as e:
+                print(f'⚠️  Selector {selector} falló: {e}')
+                continue
+        
+        # Filtrar categorías principales (última validación)
+        main_categories = []
+        exclude_keywords = [
+            'ver más', 'ver todo', 'todos', 'ofertas', 'novedades',
+            'comprar', 'compra', 'inicio', 'home', 'contacto',
+            'ayuda', 'servicio', 'atención', 'sucursales', 'legales',
+            'bancarios', 'arrepentimiento', 'descuentos'
+        ]
+        
+        for category in categories:
+            name_lower = category['name'].lower()
+            should_exclude = False
+            
+            for keyword in exclude_keywords:
+                if keyword in name_lower:
+                    should_exclude = True
+                    break
+                
+            if not should_exclude and len(category['name']) > 2:
+                main_categories.append(category)
+        
+        print(f'📊 Categorías válidas después del filtrado: {len(main_categories)}')
+        return main_categories
+        
+    except Exception as e:
+        print(f'❌ Error extrayendo categorías: {e}')
+        return []
 
-    for element in nav_elements:
-        href = element.get('href')
-        if href and '/categoria' in href:
-            name = element.get_text().strip()
-            if name and len(name) > 2:
-                categories.append({
-                    'name': name,
-                    'url': f"https://www.jumbo.com.ar{href}",
-                    'filters': []
-                })
+def analyze_main_menu():
+    """Extraer categorías principales del menú desplegado - Etapa 3.2"""
+    # Configurar Selenium con Chrome
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--start-maximized")
+    
+    driver = webdriver.Chrome(options=chrome_options)
+    
+    try:
+        driver.get('https://www.jumbo.com.ar/')
+        time.sleep(3)
+        
+        # Encontrar elemento trigger del menú
+        menu_trigger = driver.find_element(By.CSS_SELECTOR, 'span.vtex-menu-2-x-styledLink--header-category')
+        
+        # Hacer hover sobre el elemento
+        actions = ActionChains(driver)
+        actions.move_to_element(menu_trigger).perform()
+        
+        # Extraer categorías del menú desplegado
+        categories = extract_categories_from_menu(driver)
+        
+        # Guardar en JSON
+        with open('categories_extracted.json', 'w', encoding='utf-8') as f:
+            json.dump(categories, f, indent=2, ensure_ascii=False)
+            
+        print(f'Categorías extraídas: {len(categories)}')
+        
+        # Mantener página abierta para verificación
+        input("Presiona Enter para cerrar...")
+        
+    finally:
+        driver.quit()
 
-    return categories
+# Resultado obtenido:
+# ✅ 19 categorías principales extraídas correctamente:
+# 1. Viví Saludable
+# 2. Electro
+# 3. Hogar y Textil
+# 4. Tiempo Libre
+# 5. Bebés y Niños
+# 6. Almacén
+# 7. Bebidas
+# 8. Frutas y Verduras
+# 9. Carnes
+# 10. Pescados y Mariscos
+# 11. Quesos y Fiambres
+# 12. Lácteos
+# 13. Congelados
+# 14. Panadería y Pastelería
+# 15. Pastas Frescas
+# 16. Rotisería
+# 17. Perfumería
+# 18. Limpieza
+# 19. Mascotas
 ```
 
 #### 3.3 Filtrar y Validar Categorías

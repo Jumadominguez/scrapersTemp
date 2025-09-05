@@ -1,0 +1,25 @@
+# Configuración para Scraper Jumbo
+# Versión: 1.0
+
+# Configuración del sitio
+site_url: "https://www.jumbo.com.ar"
+output_file: "categorias_jumbo.md"
+
+# Configuración de red
+max_retries: 3
+delay_between_requests: 1
+timeout: 30
+user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+
+# Configuración de logging
+log_level: "INFO"
+log_file: "logs/scraper.log"
+
+# Configuración de desarrollo
+debug_mode: false
+save_intermediate_results: true
+
+# Configuración de filtros
+exclude_price_ranges: true
+min_filter_length: 2
+max_filter_length: 50

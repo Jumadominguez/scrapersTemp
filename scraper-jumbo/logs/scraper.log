@@ -1,0 +1,97 @@
+2025-09-05 11:23:13,716 - scraper_jumbo - INFO - 🚀 Iniciando Scraper Jumbo v1.0
+2025-09-05 11:23:13,716 - scraper_jumbo - INFO - 📁 Directorio de trabajo: E:\scrapersTemp\Sandbox\scraper-jumbo
+2025-09-05 11:23:13,717 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:23:13,717 - scraper_jumbo - INFO - 🔧 Scraper inicializado correctamente
+2025-09-05 11:23:13,717 - scraper_jumbo - INFO - Probando conexión a Jumbo...
+2025-09-05 11:23:14,057 - scraper_jumbo - INFO - ✅ Conexión exitosa a Jumbo
+2025-09-05 11:23:50,518 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:23:50,982 - scraper_jumbo - INFO - 📂 Extrayendo categorías de la página principal...
+2025-09-05 11:23:51,015 - scraper_jumbo - INFO - 📋 Encontradas 27 categorías
+2025-09-05 11:28:00,834 - scraper_jumbo - INFO - 🚀 Iniciando Scraper Jumbo v1.0
+2025-09-05 11:28:00,834 - scraper_jumbo - INFO - 📁 Directorio de trabajo: E:\scrapersTemp\Sandbox\scraper-jumbo
+2025-09-05 11:28:00,834 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:28:00,834 - scraper_jumbo - INFO - 🔧 Scraper inicializado correctamente
+2025-09-05 11:28:00,835 - scraper_jumbo - INFO - 📊 Obteniendo información del sitio...
+2025-09-05 11:28:01,390 - scraper_jumbo - INFO - 📊 Información del sitio:
+2025-09-05 11:28:01,390 - scraper_jumbo - INFO -   url: https://www.jumbo.com.ar
+2025-09-05 11:28:01,390 - scraper_jumbo - INFO -   content_length: 6699030
+2025-09-05 11:28:01,390 - scraper_jumbo - INFO -   has_jumbo: True
+2025-09-05 11:28:01,391 - scraper_jumbo - INFO -   title: Jumbo Argentina | Aprovechá las Ofertas I Supermercado Online
+2025-09-05 11:28:01,391 - scraper_jumbo - INFO -   status: accessible
+2025-09-05 11:28:08,226 - scraper_jumbo - INFO - 🚀 Iniciando Scraper Jumbo v1.0
+2025-09-05 11:28:08,227 - scraper_jumbo - INFO - 📁 Directorio de trabajo: E:\scrapersTemp\Sandbox\scraper-jumbo
+2025-09-05 11:28:08,227 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:28:08,227 - scraper_jumbo - INFO - 🔧 Scraper inicializado correctamente
+2025-09-05 11:28:08,646 - scraper_jumbo - INFO - ✅ Contenido válido: True
+2025-09-05 11:28:35,827 - scraper_jumbo - INFO - 🚀 Iniciando Scraper Jumbo v1.0
+2025-09-05 11:28:35,827 - scraper_jumbo - INFO - 📁 Directorio de trabajo: E:\scrapersTemp\Sandbox\scraper-jumbo
+2025-09-05 11:28:35,827 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:28:35,827 - scraper_jumbo - INFO - 🔧 Scraper inicializado correctamente
+2025-09-05 11:28:35,828 - scraper_jumbo - INFO - 🔍 Probando conexión a Jumbo...
+2025-09-05 11:28:36,246 - scraper_jumbo - INFO - ✅ Conexión exitosa a Jumbo
+2025-09-05 11:29:50,190 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:29:50,532 - scraper_jumbo - INFO - 📂 Extrayendo categorías de la página principal...
+2025-09-05 11:29:50,660 - scraper_jumbo - INFO - 📋 Encontradas 36 categorías
+2025-09-05 11:31:40,402 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:31:51,273 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:32:09,456 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:34:59,254 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:35:16,746 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:35:47,063 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:38:36,566 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:38:36,918 - scraper_jumbo - INFO - 📂 Extrayendo categorías de la página principal...
+2025-09-05 11:38:37,109 - scraper_jumbo - INFO - 📋 Encontradas 9 categorías potenciales
+2025-09-05 11:40:28,434 - scraper_jumbo - INFO - 🚀 Iniciando Scraper Jumbo v1.0
+2025-09-05 11:40:28,434 - scraper_jumbo - INFO - 📁 Directorio de trabajo: E:\scrapersTemp\Sandbox\scraper-jumbo
+2025-09-05 11:40:28,435 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:40:28,435 - scraper_jumbo - INFO - 🔧 Scraper inicializado correctamente
+2025-09-05 11:40:28,435 - scraper_jumbo - INFO - 🔍 Probando conexión a Jumbo...
+2025-09-05 11:40:28,891 - scraper_jumbo - INFO - ✅ Conexión exitosa a Jumbo
+2025-09-05 11:40:35,616 - scraper_jumbo - INFO - 🚀 Iniciando Scraper Jumbo v1.0
+2025-09-05 11:40:35,617 - scraper_jumbo - INFO - 📁 Directorio de trabajo: E:\scrapersTemp\Sandbox\scraper-jumbo
+2025-09-05 11:40:35,617 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:40:35,617 - scraper_jumbo - INFO - 🔧 Scraper inicializado correctamente
+2025-09-05 11:40:35,617 - scraper_jumbo - INFO - 📊 Obteniendo información del sitio...
+2025-09-05 11:40:36,173 - scraper_jumbo - INFO - 📊 Información del sitio:
+2025-09-05 11:40:36,173 - scraper_jumbo - INFO -   url: https://www.jumbo.com.ar
+2025-09-05 11:40:36,174 - scraper_jumbo - INFO -   content_length: 6697531
+2025-09-05 11:40:36,174 - scraper_jumbo - INFO -   has_jumbo: True
+2025-09-05 11:40:36,174 - scraper_jumbo - INFO -   title: Jumbo Argentina | Aprovechá las Ofertas I Supermercado Online
+2025-09-05 11:40:36,175 - scraper_jumbo - INFO -   status: accessible
+2025-09-05 11:44:30,776 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:45:08,696 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:46:03,116 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:46:13,796 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:46:53,648 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:48:02,699 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:48:14,327 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:48:54,497 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:56:27,563 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:56:39,982 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:56:57,491 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 11:57:14,339 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:06:12,007 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:06:21,860 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:07:14,321 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:10:44,076 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:12:50,035 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:14:19,288 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:17:26,988 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:24:10,730 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:27:20,893 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:30:06,640 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:31:08,339 - urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /session/e45c60caa921c0c8145948fff0bef727
+2025-09-05 12:31:12,393 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000025F558B6660>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/e45c60caa921c0c8145948fff0bef727
+2025-09-05 12:31:16,435 - urllib3.connectionpool - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000025F55846360>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/e45c60caa921c0c8145948fff0bef727
+2025-09-05 12:31:40,858 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:32:00,082 - urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001322C8D21B0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9f11e39abafc4eeb5401e40cc3e5116b
+2025-09-05 12:32:04,146 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001322BDACF50>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9f11e39abafc4eeb5401e40cc3e5116b
+2025-09-05 12:32:08,213 - urllib3.connectionpool - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001322C8D2300>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9f11e39abafc4eeb5401e40cc3e5116b
+2025-09-05 12:43:25,709 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:45:00,324 - urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /session/fdaebf5034582e3872e8338481ff49fe
+2025-09-05 12:45:04,387 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000018605E94140>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fdaebf5034582e3872e8338481ff49fe
+2025-09-05 12:45:08,455 - urllib3.connectionpool - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000018605E94470>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fdaebf5034582e3872e8338481ff49fe
+2025-09-05 12:47:45,767 - scraper_jumbo - INFO - 🔧 JumboScraper inicializado
+2025-09-05 12:48:31,391 - urllib3.connectionpool - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)': /session/1c17641c4959c3ef4d84045b1589351b
+2025-09-05 12:48:35,426 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000180838F5DC0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/1c17641c4959c3ef4d84045b1589351b
+2025-09-05 12:48:39,497 - urllib3.connectionpool - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000180838F68D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/1c17641c4959c3ef4d84045b1589351b
