@@ -1,12 +1,3 @@
-# Categorías de Jumbo.com### Lácteos
-- Categoría
-- Marca
-- Tipo de Producto
-- Contenido
-- Envase
-- Sub-Categoría
-- Elaboración
-- Saborn el análisis del frontend de jumbo.com.ar, aquí hay una lista unificada de las categorías encontradas con sus URLs:
 
 ## Categorias
 - Almacén: https://www.jumbo.com.ar/almacen
@@ -30,13 +21,18 @@
 ## Filtros por Categoría
 
 ### Almacén
-- Categoría
-- Marca
-- Tipo de Producto
-- Contenido
-- Envase
-- Sub-Categoría
-- Sabor
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+Formato
+Variedad
+-- Subfiltros
+Contenido
+Envase
+Marca
+Sabor
 
 ### Bebidas
 -- FiltrosCategory
@@ -72,7 +68,6 @@ Elaboración
 Envase
 Marca
 Sabor
-Rangos de precio
 
 ### Limpieza
 -- FiltrosCategory
@@ -87,7 +82,6 @@ Envase
 Formato
 Marca
 Variedad
-Rangos de precio
 
 ### Perfumería
 -- FiltrosCategory
@@ -107,7 +101,6 @@ Tipo de Dureza
 Tipo de Piel
 Tono
 Zona de Aplicación
-Rangos de precio
 
 ### Electro
 -- FiltrosCategory
@@ -141,7 +134,6 @@ Tipo de Gas
 Tipo de Secado
 Tiro
 Velocidad Centrifugado
-Rangos de precio
 
 ### Hogar
 -- FiltrosCategory
@@ -162,7 +154,6 @@ Plazas
 Rodado
 Talle
 Tipo de Luz
-Rangos de precio
 
 ### Indumentaria
 -- FiltrosCategory
@@ -176,7 +167,6 @@ Género
 Marca
 Material
 Talle
-Rangos de precio
 
 ### Muebles
 -- FiltrosCategory
@@ -193,7 +183,6 @@ Envase
 Formato
 Marca
 Material
-Rangos de precio
 
 ### Deportes
 -- FiltrosCategory
@@ -204,7 +193,6 @@ Tipo de Producto
 -- Subfiltros
 Color
 Marca
-Rangos de precio
 
 ### Juguetería
 -- FiltrosCategory
@@ -216,7 +204,6 @@ Tipo de Producto
 Área de Desarrollo
 Edad Recomendada
 Marca
-Rangos de precio
 
 ### Frescos
 -- FiltrosCategory
@@ -230,7 +217,6 @@ Contenido
 Envase
 Marca
 Sabor
-Rangos de precio
 
 ### Cervezas
 -- FiltrosCategory
@@ -242,7 +228,6 @@ Tipo de Producto
 Color Cerveza
 Envase
 Marca
-Rangos de precio
 
 ### Cuidado Personal
 No se encontraron filtros en la página (página sin productos).
@@ -255,7 +240,6 @@ Sub-Categoría
 Tipo de Producto
 -- Subfiltros
 Marca
-Rangos de precio
 
 ### Marcas Exclusivas
 No se encontraron filtros en la página (página sin productos).
