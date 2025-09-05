@@ -1,108 +1,28 @@
 
 ## Categorias
-- Almacén: https://www.jumbo.com.ar/almacen
-- Bebidas: https://www.jumbo.com.ar/bebidas
-- Carnes: https://www.jumbo.com.ar/especial-carnes
-- Lácteos: https://www.jumbo.com.ar/lacteos
-- Limpieza: https://www.jumbo.com.ar/limpieza
-- Perfumería: https://www.jumbo.com.ar/perfumeria
-- Electro: https://www.jumbo.com.ar/electro
-- Hogar: https://www.jumbo.com.ar/hogar
-- Indumentaria: https://www.jumbo.com.ar/indumentaria
-- Muebles: https://www.jumbo.com.ar/muebles
-- Deportes: https://www.jumbo.com.ar/deportes
-- Juguetería: https://www.jumbo.com.ar/jugueteria
-- Frescos: https://www.jumbo.com.ar/frescos
-- Cervezas: https://www.jumbo.com.ar/cervezas
-- Cuidado Personal: https://www.jumbo.com.ar/cuidado-personal
-- Cuisine & Co: https://www.jumbo.com.ar/cuisine-co
-- Marcas Exclusivas: https://www.jumbo.com.ar/marcas-exclusivas
+1. Electro: https://www.jumbo.com.ar/electro
+2. Hogar: https://www.jumbo.com.ar/hogar-y-textil
+3. Tiempo Libre: https://www.jumbo.com.ar/tiempo-libre
+4. Bebés y Niños: https://www.jumbo.com.ar/bebes-y-ninos
+5. Almacén: https://www.jumbo.com.ar/almacen
+6. Bebidas: https://www.jumbo.com.ar/bebidas
+7. Frutas y Verduras: https://www.jumbo.com.ar/frutas-y-verduras
+8. Carnes: https://www.jumbo.com.ar/carnes
+9. Pescados y Mariscos: https://www.jumbo.com.ar/pescados-y-mariscos
+10. Quesos y Fiambres: https://www.jumbo.com.ar/quesos-y-fiambres
+11. Lácteos: https://www.jumbo.com.ar/lacteos
+12. Congelados: https://www.jumbo.com.ar/congelados
+13. Panadería y Pastelería: https://www.jumbo.com.ar/panaderia-y-pastelería
+14. Pastas Frescas: https://www.jumbo.com.ar/pastas-frescas
+15. Rotisería: https://www.jumbo.com.ar/Rotisería
+16. Perfumería: https://www.jumbo.com.ar/perfumeria
+17. Limpieza: https://www.jumbo.com.ar/limpieza
+18. Mascotas: https://www.jumbo.com.ar/mascotas
 
 ## Filtros por Categoría
 
-### Almacén
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
-Formato
-Variedad
--- Subfiltros
-Contenido
-Envase
-Marca
-Sabor
-
-### Bebidas
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Marca
-Envase
-Sabor
-Cantidad
-
-### Carnes
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Marca
-Tipo de Carne
-
-### Lácteos
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Contenido
-Elaboración
-Envase
-Marca
-Sabor
-
-### Limpieza
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Cantidad
-Contenido
-Envase
-Formato
-Marca
-Variedad
-
-### Perfumería
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Beneficios
-Cantidad
-Contenido
-Etapa
-Formato
-Marca
-Tipo de Cabello
-Tipo de Dureza
-Tipo de Piel
-Tono
-Zona de Aplicación
-
 ### Electro
+**Total de filtros: 28**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
@@ -136,76 +56,64 @@ Tiro
 Velocidad Centrifugado
 
 ### Hogar
+**Total de filtros: 8**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
 -- Tipo de producto
 Tipo de Producto
 -- Subfiltros
-Aroma
-Cantidad
-Cantidad de Luces
-Color
-Contenido
-Género
 Marca
+Color
 Material
-Plazas
-Rodado
-Talle
-Tipo de Luz
+Tipo
+Precio
 
-### Indumentaria
+### Tiempo Libre
+**Total de filtros: 7**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
 -- Tipo de producto
 Tipo de Producto
 -- Subfiltros
-Color
-Género
 Marca
-Material
-Talle
+Tipo
+Precio
+Género
+Edad
 
-### Muebles
+### Bebés y Niños
+**Total de filtros: 8**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
 -- Tipo de producto
 Tipo de Producto
 -- Subfiltros
-Área de Desarrollo
-Color
-Contenido
-Edad Recomendada
-Envase
+Marca
+Edad
+Género
+Tipo
+Precio
+
+### Almacén
+**Total de filtros: 9**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
 Formato
+Variedad
+Contenido
+Envase
 Marca
-Material
+Sabor
 
-### Deportes
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Color
-Marca
-
-### Juguetería
--- FiltrosCategory
-Categoría
-Sub-Categoría
--- Tipo de producto
-Tipo de Producto
--- Subfiltros
-Área de Desarrollo
-Edad Recomendada
-Marca
-
-### Frescos
+### Bebidas
+**Total de filtros: 12**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
@@ -213,26 +121,152 @@ Sub-Categoría
 Tipo de Producto
 -- Subfiltros
 Cepa
+Color Cerveza
 Contenido
 Envase
+Gasificado
 Marca
+Pack-Unitario
+Sabor
+Variedad
+
+### Carnes
+**Total de filtros: 4**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Marca
+
+### Electro
+**Total de filtros: 6**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Marca
+Precio
+Tipo
+
+### Hogar y Textil
+**Total de filtros: 8**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Color
+Contenido
+Marca
+Precio
+Tipo
+
+### Perfumería
+**Total de filtros: 9**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Color
+Contenido
+Formato
+Marca
+Precio
+Tipo
+
+### Limpieza
+**Total de filtros: 9**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Contenido
+Envase
+Formato
+Marca
+Precio
+Tipo
+
+### Frutas y Verduras
+**Total de filtros: 4**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Tipo
+Origen
+Estación
+
+### Pescados y Mariscos
+**Total de filtros: 5**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Tipo
+Origen
+Marca
+
+### Panadería y Repostería
+**Total de filtros: 5**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Tipo
+Marca
+
+### Pastas Frescas
+**Total de filtros: 6**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Tipo
+Marca
+Peso
 Sabor
 
-### Cervezas
+### Comidas Preparadas
+**Total de filtros: 5**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
 -- Tipo de producto
 Tipo de Producto
 -- Subfiltros
-Color Cerveza
-Envase
+Tipo
 Marca
 
-### Cuidado Personal
-No se encontraron filtros en la página (página sin productos).
+### Rotisería
+**Total de filtros: 4**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Tipo
 
-### Cuisine & Co
+### Tiempo Libre
+**Total de filtros: 7**
 -- FiltrosCategory
 Categoría
 Sub-Categoría
@@ -240,8 +274,37 @@ Sub-Categoría
 Tipo de Producto
 -- Subfiltros
 Marca
+Tipo
+Precio
+Género
+Edad
 
-### Marcas Exclusivas
-No se encontraron filtros en la página (página sin productos).
+### Bebés y Niños
+**Total de filtros: 8**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Marca
+Edad
+Género
+Tipo
+Precio
+
+### Mascotas
+**Total de filtros: 7**
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Tipo
+Marca
+Peso
+Edad
+Raza
 
 Nota: Las URLs se basan en el contenido visible y pueden requerir verificación. Para categorías dinámicas, se podría necesitar scraping con herramientas como Selenium. Los filtros se extrajeron del contenido de las páginas de categoría; algunas páginas no tienen filtros disponibles o no se cargaron correctamente.

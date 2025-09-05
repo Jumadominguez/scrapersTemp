@@ -72,9 +72,19 @@ Desarrollar un scraper que extraiga información de productos, categorías y pre
 - Actualizado `categorias_jumbo.md` con filtros precisos y limpios.
 - Creado archivo `comparacion_filtros_sin_precio.md` con comparación detallada.
 
+### 14. Verificación de Filtros para Categorías Restantes
+- Descargado HTML completo de Limpieza, Perfumería, Electro y Hogar usando Selenium con ChromeDriver actualizado.
+- Creado script `verify_remaining_filters.py` para extraer filtros de los archivos HTML descargados.
+- **Resultados de verificación**:
+  - **Limpieza**: Confirmados 6 filtros (Categoría, Contenido, Envase, Formato, Marca, Tipo) + Precio
+  - **Perfumería**: Confirmados 6 filtros (Categoría, Color, Contenido, Formato, Marca, Tipo) + Precio
+  - **Electro**: Confirmados 3 filtros (Categoría, Marca, Tipo) + Precio
+  - **Hogar**: Confirmados 4 filtros (Categoría, Color, Contenido, Marca, Tipo) + Precio
+- Actualizado `categorias_jumbo.md` con filtros verificados para todas las categorías principales.
+- Todas las categorías principales ahora tienen filtros verificados directamente del HTML.
+
 ## Próximos Pasos Planificados
-- ✅ **Completado**: Extracción precisa de filtros limpios (sin precios) para Lácteos y Almacén usando análisis offline
-- Aplicar el mismo método de extracción a las demás categorías (Bebidas, Carnes, Limpieza, etc.)
+- ✅ **Completado**: Verificación de filtros para todas las categorías principales usando HTML descargado
 - Desarrollar scraper principal para extraer productos por categoría usando los filtros identificados
 - Implementar almacenamiento de datos (e.g., en base de datos o CSV)
 - Agregar logging y manejo de errores
@@ -84,5 +94,3 @@ Desarrollar un scraper que extraiga información de productos, categorías y pre
 - El sitio Jumbo.com.ar parece usar JavaScript para cargar contenido dinámico, lo que complica el scraping con requests/bs4.
 - Se recomienda usar Selenium para scraping completo.
 - Todas las modificaciones se commitean y suben a GitHub para versionado.
-
-Este documento se actualizará con cada nuevo paso realizado.
