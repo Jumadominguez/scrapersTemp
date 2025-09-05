@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Electro",
+    "url": "https://www.jumbo.com.ar/electro",
+    "text_original": "Electro",
+    "name_cleaned": false
+  },
+  {
+    "name": "Hogar Y Textil",
+    "url": "https://www.jumbo.com.ar/hogar-y-textil",
+    "text_original": "Hogar y Textil",
+    "name_cleaned": true
+  },
+  {
+    "name": "Tiempo Libre",
+    "url": "https://www.jumbo.com.ar/tiempo-libre",
+    "text_original": "Tiempo Libre",
+    "name_cleaned": false
+  },
+  {
+    "name": "Bebés Y Niños",
+    "url": "https://www.jumbo.com.ar/bebes-y-ninos",
+    "text_original": "Bebés y Niños",
+    "name_cleaned": true
+  },
+  {
+    "name": "Almacén",
+    "url": "https://www.jumbo.com.ar/almacen",
+    "text_original": "Almacén",
+    "name_cleaned": false
+  },
+  {
+    "name": "Bebidas",
+    "url": "https://www.jumbo.com.ar/bebidas",
+    "text_original": "Bebidas",
+    "name_cleaned": false
+  },
+  {
+    "name": "Frutas Y Verduras",
+    "url": "https://www.jumbo.com.ar/frutas-y-verduras",
+    "text_original": "Frutas y Verduras",
+    "name_cleaned": true
+  },
+  {
+    "name": "Carnes",
+    "url": "https://www.jumbo.com.ar/carnes",
+    "text_original": "Carnes",
+    "name_cleaned": false
+  },
+  {
+    "name": "Pescados Y Mariscos",
+    "url": "https://www.jumbo.com.ar/pescados-y-mariscos",
+    "text_original": "Pescados y Mariscos",
+    "name_cleaned": true
+  },
+  {
+    "name": "Quesos Y Fiambres",
+    "url": "https://www.jumbo.com.ar/quesos-y-fiambres",
+    "text_original": "Quesos y Fiambres",
+    "name_cleaned": true
+  },
+  {
+    "name": "Lácteos",
+    "url": "https://www.jumbo.com.ar/lacteos",
+    "text_original": "Lácteos",
+    "name_cleaned": false
+  },
+  {
+    "name": "Congelados",
+    "url": "https://www.jumbo.com.ar/congelados",
+    "text_original": "Congelados",
+    "name_cleaned": false
+  },
+  {
+    "name": "Panadería Y Pastelería",
+    "url": "https://www.jumbo.com.ar/panaderia-y-pasteler%C3%ADa",
+    "text_original": "Panadería y Pastelería",
+    "name_cleaned": true
+  },
+  {
+    "name": "Pastas Frescas",
+    "url": "https://www.jumbo.com.ar/pastas-frescas",
+    "text_original": "Pastas Frescas",
+    "name_cleaned": false
+  },
+  {
+    "name": "Rotisería",
+    "url": "https://www.jumbo.com.ar/rotiseria",
+    "text_original": "Rotisería",
+    "name_cleaned": false
+  },
+  {
+    "name": "Perfumería",
+    "url": "https://www.jumbo.com.ar/perfumeria",
+    "text_original": "Perfumería",
+    "name_cleaned": false
+  },
+  {
+    "name": "Limpieza",
+    "url": "https://www.jumbo.com.ar/limpieza",
+    "text_original": "Limpieza",
+    "name_cleaned": false
+  },
+  {
+    "name": "Mascotas",
+    "url": "https://www.jumbo.com.ar/mascotas",
+    "text_original": "Mascotas",
+    "name_cleaned": false
+  }
+]

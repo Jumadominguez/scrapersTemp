@@ -11,6 +11,7 @@ Este documento especifica los requerimientos técnicos para desarrollar un scrip
 - **Etapa 2.1**: Cliente HTTP funcional
 - **Etapa 2.2**: Hover sobre menú desplegable ✅ **NUEVO**
 - **Etapa 3.2**: Extracción de categorías del menú desplegado ✅ **NUEVO**
+- **Etapa 3.3**: Filtrado y validación de categorías ✅ **NUEVO**
 
 ### 🔄 **En Progreso:**
 - **Etapa 2.3**: Manejo de errores básico
@@ -816,33 +817,81 @@ def analyze_main_menu():
     finally:
         driver.quit()
 
-# Resultado obtenido:
-# ✅ 19 categorías principales extraídas correctamente:
-# 1. Viví Saludable
-# 2. Electro
-# 3. Hogar y Textil
-# 4. Tiempo Libre
-# 5. Bebés y Niños
-# 6. Almacén
-# 7. Bebidas
-# 8. Frutas y Verduras
-# 9. Carnes
-# 10. Pescados y Mariscos
-# 11. Quesos y Fiambres
-# 12. Lácteos
-# 13. Congelados
-# 14. Panadería y Pastelería
-# 15. Pastas Frescas
-# 16. Rotisería
-# 17. Perfumería
-# 18. Limpieza
-# 19. Mascotas
 ```
 
 #### 3.3 Filtrar y Validar Categorías
-- Eliminar categorías no relevantes (Ofertas, Novedades, etc.)
-- Validar URLs accesibles
-- Limpiar nombres de categorías
+```python
+# analyze_menu.py - Tarea 3.3: Filtrado y validación de categorías
+import json
+import requests
+import time
+
+def filter_and_validate_categories(input_file='categories_extracted.json', output_file='categories_filtered.json'):
+    """Filtrar y validar categorías - Etapa 3.3"""
+    
+    # Cargar categorías extraídas
+    with open(input_file, 'r', encoding='utf-8') as f:
+        categories = json.load(f)
+    
+    # Categorías a excluir
+    categories_to_exclude = [
+        'viví saludable', 'vivi saludable',  # No relevante según especificación
+        'ofertas', 'novedades', 'promociones',  # Promocionales
+        'servicios', 'atención al cliente', 'contacto'  # No productos
+    ]
+    
+    filtered_categories = []
+    validated_categories = []
+    
+    # Filtrar categorías no relevantes
+    for category in categories:
+        name_lower = category['name'].lower().strip()
+        should_exclude = False
+        
+        for exclude_term in categories_to_exclude:
+            if exclude_term in name_lower:
+                should_exclude = True
+                break
+        
+        if not should_exclude:
+            filtered_categories.append(category)
+    
+    # Validar URLs con requests (sin abrir browser)
+    scraper = JumboScraper()
+    
+    for category in filtered_categories:
+        url = category['url']
+        
+        try:
+            # Validar con HEAD request
+            response = requests.head(url, timeout=10, allow_redirects=True,
+                                   headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+            
+            if response.status_code == 200:
+                validated_categories.append(category)
+                
+        except requests.RequestException as e:
+            print(f'Error validando {url}: {e}')
+    
+    # Limpiar nombres de categorías
+    for category in validated_categories:
+        original_name = category['name']
+        clean_name = ' '.join(original_name.split())  # Normalizar espacios
+        clean_name = clean_name.title()  # Capitalizar
+        category['name'] = clean_name
+    
+    # Guardar categorías filtradas y validadas
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(validated_categories, f, indent=2, ensure_ascii=False)
+    
+    return validated_categories
+
+# Resultado obtenido:
+# ✅ 18 categorías validadas (1 excluida: "Viví Saludable")
+# ✅ Todas las URLs accesibles (status 200)
+# ✅ Nombres de categorías limpiados y normalizados
+# ✅ Archivo categories_filtered.json generado
+```
 
 #### 3.4 Implementar Caching
 - Almacenar categorías extraídas

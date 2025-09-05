@@ -1,19 +1,15 @@
 #!/usr/bin/env python3
 """
-Análisis del menú de categorías principal - Etapa 3.2
-Extraer categorías principales del menú desplegado
+Análisis del menú de categorías principal - Etapa 3.3
+Filtrar y validar categorías extraídas
 """
 
 import sys
 from pathlib import Path
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
 import json
+import requests
+import time
+from urllib.parse import urljoin
 
 # Agregar el directorio src al path
 project_root = Path(__file__).parent
@@ -21,8 +17,129 @@ src_path = project_root / "src"
 sys.path.insert(0, str(src_path))
 
 from scraper import JumboScraper
-from bs4 import BeautifulSoup
-import re
+
+def filter_and_validate_categories(input_file='categories_extracted.json', output_file='categories_filtered.json'):
+    """Filtrar y validar categorías - Etapa 3.3"""
+    print('🚀 INICIANDO FILTRADO Y VALIDACIÓN DE CATEGORÍAS - ETAPA 3.3')
+    print('=' * 60)
+
+    # Cargar categorías extraídas
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            categories = json.load(f)
+        print(f'📂 Cargadas {len(categories)} categorías del archivo {input_file}')
+    except FileNotFoundError:
+        print(f'❌ Error: No se encontró el archivo {input_file}')
+        return []
+    except json.JSONDecodeError as e:
+        print(f'❌ Error al leer JSON: {e}')
+        return []
+
+    # Categorías a excluir (según especificación)
+    categories_to_exclude = [
+        'viví saludable', 'vivi saludable',  # Se considera no relevante
+        'ofertas', 'novedades', 'promociones',  # Categorías promocionales
+        'servicios', 'atención al cliente', 'contacto'  # No son categorías de productos
+    ]
+
+    filtered_categories = []
+    validated_categories = []
+
+    print('\n🔍 FILTRANDO CATEGORÍAS NO RELEVANTES...')
+    print('-' * 40)
+
+    for category in categories:
+        name_lower = category['name'].lower().strip()
+
+        # Verificar si debe excluirse
+        should_exclude = False
+        for exclude_term in categories_to_exclude:
+            if exclude_term in name_lower:
+                should_exclude = True
+                print(f'🚫 Excluyendo: "{category["name"]}" (contiene "{exclude_term}")')
+                break
+
+        if not should_exclude:
+            filtered_categories.append(category)
+            print(f'✅ Manteniendo: "{category["name"]}"')
+
+    print(f'\n📊 Después del filtrado: {len(filtered_categories)} categorías')
+
+    # Validar URLs
+    print('\n🔗 VALIDANDO URLs DE CATEGORÍAS...')
+    print('-' * 40)
+
+    scraper = JumboScraper()
+    base_url = 'https://www.jumbo.com.ar/'
+
+    for i, category in enumerate(filtered_categories, 1):
+        url = category['url']
+        name = category['name']
+
+        print(f'{i:2d}. Validando: {name}')
+        print(f'    URL: {url}')
+
+        try:
+            # Hacer petición HEAD para validar URL (más rápido que GET completo)
+            response = requests.head(url, timeout=10, allow_redirects=True,
+                                   headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
+
+            if response.status_code == 200:
+                print(f'    ✅ URL válida (Status: {response.status_code})')
+                validated_categories.append(category)
+            else:
+                print(f'    ⚠️  URL no válida (Status: {response.status_code})')
+
+        except requests.RequestException as e:
+            print(f'    ❌ Error de conexión: {str(e)[:50]}...')
+
+        # Pequeña pausa para no sobrecargar el servidor
+        time.sleep(0.5)
+
+    print(f'\n📊 Después de validación: {len(validated_categories)} categorías válidas')
+
+    # Limpiar nombres de categorías
+    print('\n🧹 LIMPIANDO NOMBRES DE CATEGORÍAS...')
+    print('-' * 40)
+
+    for category in validated_categories:
+        original_name = category['name']
+        # Limpiar nombre (remover espacios extra, caracteres especiales)
+        clean_name = ' '.join(original_name.split())  # Normalizar espacios
+        clean_name = clean_name.title()  # Capitalizar correctamente
+
+        category['name'] = clean_name
+        category['name_cleaned'] = clean_name != original_name
+
+        if clean_name != original_name:
+            print(f'🧽 "{original_name}" → "{clean_name}"')
+        else:
+            print(f'✅ "{clean_name}" (sin cambios)')
+
+    # Guardar categorías filtradas y validadas
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(validated_categories, f, indent=2, ensure_ascii=False)
+
+    print(f'\n💾 CATEGORÍAS GUARDADAS EN: {output_file}')
+
+    # Mostrar resumen final
+    print('\n📊 RESUMEN FINAL - ETAPA 3.3')
+    print('=' * 40)
+    print(f'📂 Categorías iniciales: {len(categories)}')
+    print(f'🔍 Después del filtrado: {len(filtered_categories)}')
+    print(f'🔗 Después de validación: {len(validated_categories)}')
+    print(f'💾 Archivo generado: {output_file}')
+
+    if validated_categories:
+        print('\n📋 LISTADO DE CATEGORÍAS VALIDADAS:')
+        print('-' * 40)
+        for i, category in enumerate(validated_categories, 1):
+            print(f'{i:2d}. {category["name"]}')
+
+    return validated_categories
+
+if __name__ == "__main__":
+    filter_and_validate_categories()
 
 def extract_categories_from_menu(driver):
     """Extraer todas las categorías del menú desplegado"""
@@ -285,4 +402,4 @@ def analyze_main_menu():
     print(f'� TOTAL DE CATEGORÍAS: {len(categories) if "categories" in locals() else 0}')
 
 if __name__ == "__main__":
-    analyze_main_menu()
+    filter_and_validate_categories()
