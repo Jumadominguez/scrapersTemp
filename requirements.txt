@@ -1,3 +1,5 @@
 # Requirements for scrapersTemp project
 requests
 beautifulsoup4
+selenium
+webdriver-manager

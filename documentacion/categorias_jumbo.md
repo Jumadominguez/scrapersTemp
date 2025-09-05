@@ -1,6 +1,12 @@
-# Categorías de Jumbo.com.ar
-
-Basado en el análisis del frontend de jumbo.com.ar, aquí hay una lista unificada de las categorías encontradas con sus URLs:
+# Categorías de Jumbo.com### Lácteos
+- Categoría
+- Marca
+- Tipo de Producto
+- Contenido
+- Envase
+- Sub-Categoría
+- Elaboración
+- Saborn el análisis del frontend de jumbo.com.ar, aquí hay una lista unificada de las categorías encontradas con sus URLs:
 
 ## Categorias
 - Almacén: https://www.jumbo.com.ar/almacen
@@ -24,13 +30,35 @@ Basado en el análisis del frontend de jumbo.com.ar, aquí hay una lista unifica
 ## Filtros por Categoría
 
 ### Almacén
-No se encontraron filtros en la página.
+- Categoría
+- Marca
+- Tipo de Producto
+- Contenido
+- Envase
+- Sub-Categoría
+- Sabor
 
 ### Bebidas
-No se encontraron filtros en la página.
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Marca
+Envase
+Sabor
+Cantidad
 
 ### Carnes
-No se encontraron filtros en la página.
+-- FiltrosCategory
+Categoría
+Sub-Categoría
+-- Tipo de producto
+Tipo de Producto
+-- Subfiltros
+Marca
+Tipo de Carne
 
 ### Lácteos
 -- FiltrosCategory

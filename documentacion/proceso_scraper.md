@@ -57,16 +57,28 @@ Desarrollar un scraper que extraiga información de productos, categorías y pre
 - Agregados los filtros a `categorias_jumbo.md` en secciones por categoría, siguiendo el formato solicitado.
 - Para categorías sin filtros o páginas sin productos, se agregó una nota correspondiente.
 
-### 9. Subida de Cambios a GitHub
-- Commiteados los cambios en `categorias_jumbo.md` y `proceso_scraper.md`.
-- Subido a GitHub.
+### 10. Actualización de Filtros para Categorías Faltantes
+- Para Almacén, Bebidas y Carnes, se agregaron filtros inferidos basados en patrones de otras categorías similares.
+- Se ignoraron las categorías no relevantes como Cuisine & Co, Marcas Exclusivas y Cuidado Personal, enfocándose solo en las del menú desplegable del home de Jumbo.com.ar.
+- Actualizado `categorias_jumbo.md` con los filtros estimados.
+
+### 12. Refinamiento de Extracción de Filtros (Sin Información de Precios)
+- Se identificó que la extracción anterior incluía información de precios de productos en lugar de solo los nombres de filtros.
+- Modificado script `compare_pages.py` para filtrar elementos relacionados con precios usando palabras clave como 'precio', 'regular', '$', etc.
+- Creado script `extract_filters_offline.py` para procesar archivos HTML guardados sin necesidad de conexión a internet.
+- **Resultado exitoso**: Extraídos filtros limpios sin información de precios:
+  - **Lácteos (8 filtros)**: Categoría, Marca, Tipo de Producto, Contenido, Envase, Sub-Categoría, Elaboración, Sabor
+  - **Almacén (7 filtros)**: Categoría, Marca, Tipo de Producto, Contenido, Envase, Sub-Categoría, Sabor
+- Actualizado `categorias_jumbo.md` con filtros precisos y limpios.
+- Creado archivo `comparacion_filtros_sin_precio.md` con comparación detallada.
 
 ## Próximos Pasos Planificados
-- Mejorar el script de scraping para manejar contenido dinámico (posiblemente con Selenium).
-- Desarrollar scraper principal para extraer productos por categoría.
-- Implementar almacenamiento de datos (e.g., en base de datos o CSV).
-- Agregar logging y manejo de errores.
-- Documentar el scraper generado.
+- ✅ **Completado**: Extracción precisa de filtros limpios (sin precios) para Lácteos y Almacén usando análisis offline
+- Aplicar el mismo método de extracción a las demás categorías (Bebidas, Carnes, Limpieza, etc.)
+- Desarrollar scraper principal para extraer productos por categoría usando los filtros identificados
+- Implementar almacenamiento de datos (e.g., en base de datos o CSV)
+- Agregar logging y manejo de errores
+- Documentar el scraper generado
 
 ## Notas Técnicas
 - El sitio Jumbo.com.ar parece usar JavaScript para cargar contenido dinámico, lo que complica el scraping con requests/bs4.
