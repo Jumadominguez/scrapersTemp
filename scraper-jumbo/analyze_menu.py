@@ -9,6 +9,7 @@ from pathlib import Path
 import json
 import requests
 import time
+import time
 from urllib.parse import urljoin
 
 # Agregar el directorio src al path
@@ -17,6 +18,8 @@ src_path = project_root / "src"
 sys.path.insert(0, str(src_path))
 
 from scraper import JumboScraper
+from bs4 import BeautifulSoup
+import re
 
 def filter_and_validate_categories(input_file='categories_extracted.json', output_file='categories_filtered.json'):
     """Filtrar y validar categorías - Etapa 3.3"""
@@ -136,10 +139,166 @@ def filter_and_validate_categories(input_file='categories_extracted.json', outpu
         for i, category in enumerate(validated_categories, 1):
             print(f'{i:2d}. {category["name"]}')
 
-    return validated_categories
+def extract_filters_from_category(scraper, category_url, category_name):
+    """Extraer filtros de una categoría específica"""
+    print(f'🔍 Extrayendo filtros de: {category_name}')
 
-if __name__ == "__main__":
-    filter_and_validate_categories()
+    # Filtros base (siempre presentes según especificación)
+    base_filters = ['Categoría', 'Sub-Categoría', 'Tipo de Producto']
+
+    try:
+        # Obtener HTML de la categoría
+        html_content = scraper.get_page(category_url)
+        if not html_content:
+            print(f'❌ Error obteniendo HTML para {category_name}')
+            return base_filters
+
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        # Buscar elementos de filtro con diferentes estrategias
+        filters = []
+
+        # Estrategia 1: Buscar por clases relacionadas con filtros
+        filter_selectors = [
+            '.filter-item', '.facet-option', '.filter-option',
+            '[data-filter]', '.search-filter', '.filter',
+            '.facet', '.vtex-search-result-3-x-filterItem'
+        ]
+
+        for selector in filter_selectors:
+            try:
+                elements = soup.select(selector)
+                for element in elements:
+                    filter_text = element.get_text().strip()
+                    if (filter_text and
+                        len(filter_text) > 2 and
+                        len(filter_text) < 100 and  # Evitar textos muy largos
+                        filter_text not in base_filters and
+                        'precio' not in filter_text.lower() and
+                        'rango' not in filter_text.lower() and
+                        not filter_text.isdigit()):  # Evitar números sueltos
+
+                        # Limpiar el texto
+                        clean_text = re.sub(r'[^\w\sáéíóúñÁÉÍÓÚÑ]', '', filter_text).strip()
+                        if clean_text and len(clean_text) > 2:
+                            filters.append(clean_text)
+
+            except Exception as e:
+                continue
+
+        # Estrategia 2: Buscar en elementos con atributos data
+        data_elements = soup.find_all(attrs={'data-filter': True})
+        for element in data_elements:
+            filter_text = element.get_text().strip()
+            if (filter_text and
+                len(filter_text) > 2 and
+                filter_text not in base_filters and
+                'precio' not in filter_text.lower()):
+                clean_text = re.sub(r'[^\w\sáéíóúñÁÉÍÓÚÑ]', '', filter_text).strip()
+                if clean_text and len(clean_text) > 2:
+                    filters.append(clean_text)
+
+        # Estrategia 3: Buscar en listas de navegación/filtros
+        nav_elements = soup.find_all(['ul', 'ol'], class_=re.compile(r'filter|nav|facet'))
+        for nav in nav_elements:
+            list_items = nav.find_all('li')
+            for item in list_items:
+                filter_text = item.get_text().strip()
+                if (filter_text and
+                    len(filter_text) > 2 and
+                    len(filter_text) < 50 and
+                    filter_text not in base_filters and
+                    'precio' not in filter_text.lower()):
+                    clean_text = re.sub(r'[^\w\sáéíóúñÁÉÍÓÚÑ]', '', filter_text).strip()
+                    if clean_text and len(clean_text) > 2:
+                        filters.append(clean_text)
+
+        # Limpiar y deduplicar
+        unique_filters = list(set(filters))
+        unique_filters.sort()
+
+        # Limitar a un máximo razonable de filtros
+        if len(unique_filters) > 50:
+            unique_filters = unique_filters[:50]
+
+        print(f'✅ Encontrados {len(unique_filters)} filtros para {category_name}')
+
+        # Retornar filtros base + filtros específicos
+        return base_filters + unique_filters
+
+    except Exception as e:
+        print(f'❌ Error extrayendo filtros de {category_name}: {e}')
+        return base_filters  # Retornar al menos los filtros base
+
+def extract_filters_from_all_categories(input_file='categories_filtered.json', output_file='categories_with_filters.json'):
+    """Extraer filtros de todas las categorías - Etapa 4"""
+    print('🚀 INICIANDO EXTRACCIÓN DE FILTROS - ETAPA 4')
+    print('=' * 50)
+
+    # Cargar categorías filtradas
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            categories = json.load(f)
+        print(f'📂 Cargadas {len(categories)} categorías del archivo {input_file}')
+    except FileNotFoundError:
+        print(f'❌ Error: No se encontró el archivo {input_file}')
+        return []
+    except json.JSONDecodeError as e:
+        print(f'❌ Error al leer JSON: {e}')
+        return []
+
+    # Inicializar scraper
+    scraper = JumboScraper()
+
+    # Procesar cada categoría
+    processed_categories = []
+    total_filters = 0
+
+    print('\n🔍 EXTRAYENDO FILTROS POR CATEGORÍA...')
+    print('-' * 40)
+
+    for i, category in enumerate(categories, 1):
+        print(f'\n{i:2d}/{len(categories)} Procesando: {category["name"]}')
+
+        # Extraer filtros de la categoría
+        filters = extract_filters_from_category(scraper, category['url'], category['name'])
+
+        # Agregar filtros a la categoría
+        category_with_filters = category.copy()
+        category_with_filters['filters'] = filters
+        category_with_filters['filters_count'] = len(filters)
+
+        processed_categories.append(category_with_filters)
+        total_filters += len(filters)
+
+        print(f'   📊 Filtros extraídos: {len(filters)}')
+
+        # Pequeña pausa para no sobrecargar el servidor
+        time.sleep(1)
+
+    # Guardar resultados
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(processed_categories, f, indent=2, ensure_ascii=False)
+
+    print(f'\n💾 RESULTADOS GUARDADOS EN: {output_file}')
+
+    # Mostrar resumen
+    print('\n📊 RESUMEN DE EXTRACCIÓN - ETAPA 4')
+    print('=' * 40)
+    print(f'📂 Categorías procesadas: {len(processed_categories)}')
+    print(f'🔍 Total de filtros extraídos: {total_filters}')
+    print(f'📊 Promedio de filtros por categoría: {total_filters/len(processed_categories):.1f}')
+    print(f'💾 Archivo generado: {output_file}')
+
+    # Mostrar top categorías por cantidad de filtros
+    print('\n🏆 TOP 5 CATEGORÍAS CON MÁS FILTROS:')
+    print('-' * 40)
+
+    sorted_categories = sorted(processed_categories, key=lambda x: x['filters_count'], reverse=True)
+    for i, category in enumerate(sorted_categories[:5], 1):
+        print(f'{i}. {category["name"]}: {category["filters_count"]} filtros')
+
+    return processed_categories
 
 def extract_categories_from_menu(driver):
     """Extraer todas las categorías del menú desplegado"""
@@ -401,5 +560,75 @@ def analyze_main_menu():
     print('🖱️  HOVER REALIZADO Y CATEGORÍAS EXTRAÍDAS')
     print(f'� TOTAL DE CATEGORÍAS: {len(categories) if "categories" in locals() else 0}')
 
+def generate_markdown_report(input_file='categories_with_filters.json', output_file='categorias_jumbo.md'):
+    """Generar archivo Markdown con categorías y filtros - Etapa 5"""
+    print('🚀 GENERANDO REPORTE MARKDOWN - ETAPA 5')
+    print('=' * 50)
+
+    # Cargar categorías con filtros
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            categories = json.load(f)
+        print(f'📂 Cargadas {len(categories)} categorías con filtros')
+    except FileNotFoundError:
+        print(f'❌ Error: No se encontró el archivo {input_file}')
+        return
+    except json.JSONDecodeError as e:
+        print(f'❌ Error al leer JSON: {e}')
+        return
+
+    # Generar archivo Markdown
+    with open(output_file, 'w', encoding='utf-8') as f:
+        # Encabezado
+        f.write('# Categorías y Filtros - Jumbo Argentina\n\n')
+        f.write('**Generado automáticamente**\n\n')
+        f.write(f'**Fecha:** {time.strftime("%Y-%m-%d %H:%M:%S")}\n\n')
+        f.write(f'**Total de categorías:** {len(categories)}\n\n')
+
+        # Sección de categorías
+        f.write('## Categorías\n\n')
+        for i, category in enumerate(categories, 1):
+            f.write(f'{i}. **{category["name"]}**: {category["url"]}\n')
+        f.write('\n')
+
+        # Sección de filtros por categoría
+        f.write('## Filtros por Categoría\n\n')
+
+        for category in categories:
+            f.write(f'### {category["name"]}\n')
+            filters = category.get('filters', [])
+            total_filters = len(filters)
+
+            f.write(f'**Total de filtros: {total_filters}**\n')
+
+            if filters:
+                # Filtros base (siempre presentes)
+                f.write('-- FiltrosCategory\n')
+                if 'Categoría' in filters:
+                    f.write('Categoría\n')
+                if 'Sub-Categoría' in filters:
+                    f.write('Sub-Categoría\n')
+
+                f.write('-- Tipo de producto\n')
+                if 'Tipo de Producto' in filters:
+                    f.write('Tipo de Producto\n')
+
+                # Filtros específicos
+                f.write('-- Subfiltros\n')
+                for filter_name in filters:
+                    if filter_name not in ['Categoría', 'Sub-Categoría', 'Tipo de Producto']:
+                        f.write(f'{filter_name}\n')
+
+            f.write('\n')
+
+    print(f'✅ Archivo Markdown generado: {output_file}')
+    print(f'📊 Total de categorías procesadas: {len(categories)}')
+
+    # Mostrar resumen
+    total_filters_all = sum(len(cat.get('filters', [])) for cat in categories)
+    print(f'📋 Total de filtros extraídos: {total_filters_all}')
+
+    return output_file
+
 if __name__ == "__main__":
-    filter_and_validate_categories()
+    generate_markdown_report()
